@@ -1,0 +1,6 @@
+{
+  "name": "Concept Check",
+  "description": "Focused conceptual diagnostic and verification workspace for Module 2 engineering concepts.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
