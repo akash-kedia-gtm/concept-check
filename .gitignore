@@ -4,5 +4,16 @@ dist/
 coverage/
 .DS_Store
 *.log
-.env*
+
+# Local env files with real secrets — never commit
+.env
+.env.local
+.env.*.local
+
+# Keep the example safe to commit
 !.env.example
+
+# Supabase CLI local credentials and generated types
+.supabase/
+supabase/.temp/
+supabase/seed.sql

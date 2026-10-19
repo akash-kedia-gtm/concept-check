@@ -2,97 +2,99 @@ import { PreparedQuestion } from '../types';
 
 /**
  * Prepared Question Bank for Module 2
- * Display positions (Question 1..10) map to explicit Golden Pair IDs.
- * These are prepared data, not runtime hallucinations.
+ * Display positions (Question 1..10) map strictly to Golden Pair UUIDs in Supabase.
+ * Predefined follow-ups are omitted; follow-ups are generated dynamically by the LLM.
+ * Expected answers are kept strictly in Supabase (server-side) and never shipped in frontend code.
  */
 export const MODULE_2_QUESTIONS: PreparedQuestion[] = [
   {
-    goldenPairId: 'gp_mod2_sec_001',
+    goldenPairId: '30000000-0000-4000-8000-000000000001',
     questionNumber: 1,
-    topic: 'Web Security & Client Environments',
-    questionText: "Why shouldn't a secret API key be included in JavaScript sent to a browser?",
+    topic: 'Backend Architecture & Client Boundaries',
+    questionText:
+      'Why does an application need a backend instead of handling every operation in the browser?',
     evaluationCriteria:
-      'Distinguish client-accessible bundles from secure server execution environments. Focus on inspector access and network extraction.',
+      'A backend handles operations that require trusted execution, authorization, protected secrets, and/or business logic. Distinguish client interface from server-side trusted execution.',
   },
   {
-    goldenPairId: 'gp_mod2_arch_002',
+    goldenPairId: '30000000-0000-4000-8000-000000000002',
     questionNumber: 2,
-    topic: 'Single Page Applications & Web Architecture',
+    topic: 'HTTP Protocol & API Requests',
     questionText:
-      'What is the primary difference between client-side routing and server-side page navigation?',
+      'What information travels in a typical HTTP API request from a frontend to a server?',
     evaluationCriteria:
-      'Distinguish lifecycle execution, document retrieval, and DOM updates. Focus on mechanics rather than opinionated framework preferences.',
+      'Request includes HTTP method, URL/path, headers (content type, auth token), and optional body (JSON). Distinguish request contents from server response contents.',
   },
   {
-    goldenPairId: 'gp_mod2_state_003',
+    goldenPairId: '30000000-0000-4000-8000-000000000003',
     questionNumber: 3,
-    topic: 'State Architecture & Data Flow',
+    topic: 'Client Security & Secret Protection',
     questionText:
-      'When should application state be managed locally within a component versus elevated to a shared global store?',
+      'Why is hiding a secret API key from the visible webpage not enough to protect it?',
     evaluationCriteria:
-      'Evaluate component reusability, prop drilling friction, local lifecycle ownership, and cache invalidation.',
+      'Browser bundles and network traffic are inspectable. Secrets shipped to the client can be extracted. Credentials must stay in trusted server environments.',
   },
   {
-    goldenPairId: 'gp_mod2_cors_004',
+    goldenPairId: '30000000-0000-4000-8000-000000000004',
     questionNumber: 4,
-    topic: 'Browser Security Model & Cross-Origin Rules',
+    topic: 'State Persistence & Session Lifecycle',
     questionText:
-      "How does the browser's Same-Origin Policy protect users, and what role does CORS play in relaxing it safely?",
+      'A learner sends a chat message and sees it on screen, then refreshes. Why might the message disappear?',
     evaluationCriteria:
-      'Identify ambient session credentials, server-controlled response headers, and preflight handshake verification.',
+      'Temporary client state resets on reload. Durable database persistence and retrieval on hydration are required for permanence.',
   },
   {
-    goldenPairId: 'gp_mod2_render_005',
+    goldenPairId: '30000000-0000-4000-8000-000000000005',
     questionNumber: 5,
-    topic: 'Rendering Patterns & Performance Tradeoffs',
+    topic: 'Relational Modeling & Foreign Keys',
     questionText:
-      'What are the core technical tradeoffs between Server-Side Rendering (SSR) and Static Site Generation (SSG) in production?',
+      'One user can have many chats, but each chat belongs to one user. Where should user_id be stored, and why?',
     evaluationCriteria:
-      'Balance TTFB (time-to-first-byte), CDN edge caching, server compute overhead per request, and dynamic data freshness.',
+      'user_id goes as a foreign key on the many side (chats table). Supports multiple chats per user cleanly without array/list columns in users.',
   },
   {
-    goldenPairId: 'gp_mod2_cache_006',
+    goldenPairId: '30000000-0000-4000-8000-000000000006',
     questionNumber: 6,
-    topic: 'HTTP Protocol & Caching Strategies',
+    topic: 'Data Normalization & Event History',
     questionText:
-      'How do HTTP ETag and Cache-Control headers collaborate to prevent unnecessary payload downloads over the network?',
+      'One conversation has many messages. Why should its messages generally be separate database rows instead of one growing text cell?',
     evaluationCriteria:
-      'Differentiate between client-side freshness expiration and 304 Not Modified cryptographic revalidation.',
+      'Each message is a discrete event with role, content, timestamp, and ID. Separate rows facilitate ordering, indexing, and partial updates.',
   },
   {
-    goldenPairId: 'gp_mod2_db_007',
+    goldenPairId: '30000000-0000-4000-8000-000000000007',
+    topic: 'File Storage vs Relational Data',
     questionNumber: 7,
-    topic: 'Database Consistency & Transaction Guarantees',
     questionText:
-      'Why might a financial ledger prefer an ACID-compliant relational database over an eventually consistent document store?',
+      'A user uploads a large PDF to an application. What should be stored in file storage, and what should be stored in the database?',
     evaluationCriteria:
-      'Explain atomicity, strict isolation levels, transactional invariants, and anomalies created by concurrent balance writes.',
+      'File bytes reside in blob/object storage; relational database holds paths/identifiers, metadata, and ownership links.',
   },
   {
-    goldenPairId: 'gp_mod2_auth_008',
+    goldenPairId: '30000000-0000-4000-8000-000000000008',
     questionNumber: 8,
-    topic: 'Authentication & Session Management',
+    topic: 'Secure AI Proxying & Edge Architecture',
     questionText:
-      'What architectural tradeoffs exist between stateless JWT authentication and stateful server-side sessions?',
+      'A React frontend needs an AI reply using a secret provider API key. Describe the safe path from the browser to the model and back.',
     evaluationCriteria:
-      'Assess immediate revocation latency, token theft storage vulnerabilities (cookie vs localStorage), and database lookup costs.',
+      'Browser sends request to backend proxy/Edge Function. Server reads secret, dispatches call to model API, validates response, returns sanitized payload.',
   },
   {
-    goldenPairId: 'gp_mod2_optui_009',
+    goldenPairId: '30000000-0000-4000-8000-000000000009',
     questionNumber: 9,
-    topic: 'Distributed UI State & Resilience',
+    topic: 'Access Control & Row-Level Authorization',
     questionText:
-      'How should a frontend application handle state rollbacks and reconciliation when an optimistic UI update fails on the server?',
+      'Two signed-in users have saved different chat histories. How should the application stop one user from reading the other\'s messages?',
     evaluationCriteria:
-      'Address snapshot rollbacks, user disruption minimization, concurrent dirty states, and idempotent recovery.',
+      'Authenticate caller via verified token/JWT; enforce authorization with RLS policies and backend ownership checks. Never trust client-supplied ID parameters.',
   },
   {
-    goldenPairId: 'gp_mod2_evloop_010',
+    goldenPairId: '30000000-0000-4000-8000-000000000010',
     questionNumber: 10,
-    topic: 'Asynchronous Runtime & Concurrency',
+    topic: 'Socratic Diagnostic Data Flow & Retries',
     questionText:
-      'In the JavaScript event loop, what is the precise difference in execution priority between microtasks and macrotasks?',
+      'A learner answers a question, receives a follow-up, and answers again. How would you save both answers so you can later identify which gap the second answer addressed?',
     evaluationCriteria:
-      'Clarify microtask queue draining before macrotask ticks, Promise job execution, and browser repaint interleaving.',
+      'Store initial attempt and retry as distinct rows. Identified gap links to initial attempt. Retry links back to that gap via foreign key.',
   },
 ];

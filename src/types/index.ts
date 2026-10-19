@@ -7,6 +7,7 @@ export interface LearnerProfile {
   name: string;      // The learner's display name (spaces permitted)
   username: string;  // Unique identifier chosen by learner (no whitespace)
   createdAt: string;
+  userId?: string;   // Supabase Auth UUID (auth.users.id)
 }
 
 export type MessageRole = 'assistant' | 'learner';
